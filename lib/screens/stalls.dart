@@ -243,6 +243,7 @@ class _StallsPageState extends State<StallsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 0,
         title: Row(

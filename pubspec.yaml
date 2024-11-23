@@ -35,6 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.8.0
+  firebase_core: ^3.8.0
+  firebase_auth: ^5.3.3
+  cloud_firestore: ^5.5.0
 
 dev_dependencies:
   flutter_test:
@@ -118,8 +122,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
+fonts:
+     - family: NotoSans
+       fonts: 
+        - asset: assets/fonts/NotoSans.ttf 
+        - asset: assets/fonts/NotoSansBold.ttf
+        - asset: assets/fonts/NotoSansItalic.ttf
+        - asset: assets/fonts/NotoSansBoldItalic.ttf
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf

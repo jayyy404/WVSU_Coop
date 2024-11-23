@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/team_member_card.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutUsScreen extends StatelessWidget {
   final List<Map<String, String>> teamMembers = [
@@ -35,6 +35,7 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 0,
         title: Row(
@@ -67,67 +68,124 @@ class AboutUsScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Meet the Team',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+      body: Column(
+        children: [
+          // Header Section
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Text(
+                  'Meet the Team',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
                 ),
-                itemCount: teamMembers.length,
-                itemBuilder: (context, index) {
-                  final member = teamMembers[index];
-                  return TeamMemberCard(
-                    name: member['name']!,
-                    role: member['role']!,
-                    imagePath: member['image']!,
-                  );
-                },
-              ),
+                const SizedBox(height: 8),
+                Text(
+                  'Get to know the creative minds behind our work!',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          // Team Members Grid
+          Expanded(
+            child: GridView.builder(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 200.0, vertical: 5.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 3 columns
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 1.0,
+              ),
+              itemCount: teamMembers.length,
+              itemBuilder: (context, index) {
+                final member = teamMembers[index];
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(member['image']!),
+                      radius: 100,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      member['name']!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      member['role']!,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.blue,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon:
+                              const FaIcon(FontAwesomeIcons.facebook, size: 16),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon:
+                              const FaIcon(FontAwesomeIcons.twitter, size: 16),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon:
+                              const FaIcon(FontAwesomeIcons.linkedin, size: 16),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildNavButton(BuildContext context, String label, bool isActive) {
-    return TextButton(
-      onPressed: () {
-        switch (label) {
-          case 'Home':
-            Navigator.pushNamed(context, '/');
-            break;
-          case 'Stalls':
-            Navigator.pushNamed(context, '/stalls');
-            break;
-          case 'About Us':
-            Navigator.pushNamed(context, '/about_us');
-            break;
-          case 'Contact Us':
-            Navigator.pushNamed(context, '/contact_us');
-            break;
-        }
-      },
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isActive ? Colors.white : Colors.grey[400],
-          fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: TextButton(
+        onPressed: () {
+          switch (label) {
+            case 'Home':
+              Navigator.pushNamed(context, '/');
+              break;
+            case 'Stalls':
+              Navigator.pushNamed(context, '/stalls');
+              break;
+            case 'About Us':
+              Navigator.pushNamed(context, '/about_us');
+              break;
+            case 'Contact Us':
+              Navigator.pushNamed(context, '/contact_us');
+              break;
+          }
+        },
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isActive ? Colors.white : Colors.grey,
+            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+          ),
         ),
       ),
     );

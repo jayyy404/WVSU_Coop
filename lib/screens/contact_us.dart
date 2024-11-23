@@ -7,6 +7,7 @@ class ContactUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 0,
         leading: null,
@@ -47,7 +48,6 @@ class ContactUsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Contact Header Section
             Column(
               children: [
                 const Text(
@@ -73,45 +73,43 @@ class ContactUsScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             // Contact Info Grid Section
-            GridView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 3 / 2,
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 200.0),
+                child: GridView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 4 / 3,
+                  ),
+                  children: [
+                    _buildContactBox(
+                      icon: Icons.location_on,
+                      title: 'OUR MAIN OFFICE',
+                      content: 'West Visayas State University',
+                    ),
+                    _buildContactBox(
+                      icon: Icons.phone,
+                      title: 'PHONE NUMBER',
+                      content: '09358934576\n09914499687',
+                    ),
+                    _buildContactBox(
+                      icon: Icons.access_time,
+                      title: 'Operating Hours',
+                      content: 'Monday to Saturday\n6AM - 6PM',
+                    ),
+                    _buildContactBox(
+                      icon: Icons.email,
+                      title: 'EMAIL',
+                      content: 'wvsu.coop@gmail.com',
+                      isLink: true,
+                    ),
+                  ],
+                ),
               ),
-              children: [
-                // Office Box
-                _buildContactBox(
-                  icon: Icons.location_on,
-                  title: 'OUR MAIN OFFICE',
-                  content: 'West Visayas State University',
-                ),
-
-                // Phone Number Box
-                _buildContactBox(
-                  icon: Icons.phone,
-                  title: 'PHONE NUMBER',
-                  content: '09358934576\n09914499687',
-                ),
-
-                // Operating Hours Box
-                _buildContactBox(
-                  icon: Icons.access_time,
-                  title: 'Operating Hours',
-                  content: 'Monday to Saturday\n6AM - 6PM',
-                ),
-
-                // Email Box
-                _buildContactBox(
-                  icon: Icons.email,
-                  title: 'EMAIL',
-                  content: 'wvsu.coop@gmail.com',
-                  isLink: true,
-                ),
-              ],
             ),
           ],
         ),

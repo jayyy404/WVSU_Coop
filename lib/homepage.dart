@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'authentication/log_in.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,6 +8,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 0,
         title: Row(
@@ -43,7 +45,6 @@ class HomePage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Background image
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -75,7 +76,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/stalls');
+                    _showSignUpPopup(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -105,20 +106,7 @@ class HomePage extends StatelessWidget {
   Widget _buildNavButton(BuildContext context, String label, bool isActive) {
     return TextButton(
       onPressed: () {
-        switch (label) {
-          case 'Home':
-            Navigator.pushNamed(context, '/');
-            break;
-          case 'Stalls':
-            Navigator.pushNamed(context, '/stalls');
-            break;
-          case 'About Us':
-            Navigator.pushNamed(context, '/about_us');
-            break;
-          case 'Contact Us':
-            Navigator.pushNamed(context, '/contact_us');
-            break;
-        }
+        _showSignUpPopup(context);
       },
       child: Text(
         label,
@@ -127,6 +115,16 @@ class HomePage extends StatelessWidget {
           fontSize: 16,
         ),
       ),
+    );
+  }
+
+  void _showSignUpPopup(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return LogInPage(isSignUp: true);
+      },
     );
   }
 }

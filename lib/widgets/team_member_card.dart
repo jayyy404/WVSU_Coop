@@ -9,6 +9,8 @@ class TeamMemberCard extends StatelessWidget {
     required this.name,
     required this.role,
     required this.imagePath,
+    required String image,
+    required BoxFit fit,
   });
 
   @override
