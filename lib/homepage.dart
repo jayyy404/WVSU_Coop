@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
-import 'authentication/log_in.dart';
+import 'package:wvsu_coop/authentication/auth_service.dart';
+import 'package:wvsu_coop/authentication/log_in.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final List<String> unrestrictedRoutes = [
+    '/about_us',
+    '/contact_us',
+    '/home',
+  ];
+
+  Future<void> _navigateOrLogin(BuildContext context, String route) async {
+    final user = AuthService().getCurrentUser();
+
+    // Check if user needs to log in for restricted routes
+    if (!unrestrictedRoutes.contains(route) && user == null) {
+      // Show login modal for unauthenticated users
+      await showDialog(
+        context: context,
+        builder: (context) => const LogInPage(isSignUp: false),
+      );
+    }
+
+    // Proceed to the route if the user is authenticated or unrestricted
+    if (unrestrictedRoutes.contains(route) ||
+        AuthService().getCurrentUser() != null) {
+      Navigator.pushNamed(context, route);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +40,6 @@ class HomePage extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Left logo
             const Row(
               children: [
                 CircleAvatar(
@@ -31,13 +56,12 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            // Navigation items
             Row(
               children: [
-                _buildNavButton(context, 'Home', true),
-                _buildNavButton(context, 'Stalls', false),
-                _buildNavButton(context, 'About Us', false),
-                _buildNavButton(context, 'Contact Us', false),
+                _buildNavButton(context, 'Home', '/home'),
+                _buildNavButton(context, 'Stalls', '/stalls'),
+                _buildNavButton(context, 'About Us', '/about_us'),
+                _buildNavButton(context, 'Contact Us', '/contact_us'),
               ],
             ),
           ],
@@ -59,7 +83,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          // Overlay content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -75,9 +98,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
-                    _showSignUpPopup(context);
-                  },
+                  onPressed: () => _navigateOrLogin(context, '/stalls'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -103,28 +124,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildNavButton(BuildContext context, String label, bool isActive) {
+  Widget _buildNavButton(BuildContext context, String label, String route) {
     return TextButton(
-      onPressed: () {
-        _showSignUpPopup(context);
-      },
+      onPressed: () => _navigateOrLogin(context, route),
       child: Text(
         label,
-        style: TextStyle(
-          color: isActive ? Colors.white : Colors.grey[400],
+        style: const TextStyle(
+          color: Colors.white,
           fontSize: 16,
         ),
       ),
-    );
-  }
-
-  void _showSignUpPopup(BuildContext context) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return LogInPage(isSignUp: true);
-      },
     );
   }
 }

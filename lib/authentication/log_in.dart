@@ -1,121 +1,114 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'auth_service.dart';
+import 'package:wvsu_coop/authentication/auth_service.dart';
 
-class LogInPage extends StatelessWidget {
+class LogInPage extends StatefulWidget {
   final bool isSignUp;
-  final AuthService authService = AuthService();
 
-  LogInPage({super.key, this.isSignUp = true});
+  const LogInPage({super.key, this.isSignUp = false});
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
 
-  // Sign up method
-  Future<void> _signUp(BuildContext context) async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showErrorDialog(context, 'Please fill out all fields.');
-      return;
-    }
+class _LogInPageState extends State<LogInPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isSignUp = false;
+  bool _isLoading = false;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      await authService.signUp(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      Navigator.pop(context);
-      Navigator.pop(context);
-    } catch (e) {
-      Navigator.pop(context);
-      _showErrorDialog(context, e.toString());
-    }
+  @override
+  void initState() {
+    super.initState();
+    _isSignUp = widget.isSignUp;
   }
 
-  // Sign in method
-  Future<void> _signIn(BuildContext context) async {
-    try {
-      await authService.signIn(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      Navigator.pop(context);
-    } catch (e) {
-      _showErrorDialog(context, e.toString());
-    }
-  }
+  void _submitForm() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
+    try {
+      if (_isSignUp) {
+        await AuthService().signUp(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
         );
-      },
-    );
+      } else {
+        await AuthService().signIn(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      }
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _logInAsGuest() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await AuthService().signInAsGuest();
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: Stack(
+    return Scaffold(
+      backgroundColor: Colors.black.withOpacity(0.5),
+      body: Stack(
         children: [
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-              ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Container(
+              color: Colors.black.withOpacity(0.2),
             ),
           ),
           Center(
             child: Container(
+              width: 300,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(12.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                    offset: Offset(0, 5),
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10.0,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              width: 320,
-              height: 450,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      icon: Icon(Icons.close, color: Colors.black),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
                   Text(
-                    isSignUp ? 'Sign Up' : 'Sign In',
+                    _isSignUp ? 'Sign Up' : 'Log In',
                     style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -125,30 +118,60 @@ class LogInPage extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   TextField(
                     controller: _passwordController,
-                    obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Password',
                       border: OutlineInputBorder(),
                     ),
+                    obscureText: true,
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: isSignUp
-                        ? () => _signUp(context)
-                        : () => _signIn(context),
-                    child: Text(isSignUp ? 'Sign Up' : 'Sign In'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: _submitForm,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0,
+                                  horizontal: 24.0,
+                                ),
+                              ),
+                              child: Text(
+                                _isSignUp ? 'Sign Up' : 'Log In',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            TextButton(
+                              onPressed: _logInAsGuest,
+                              child: const Text(
+                                'Log in as Guest',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ],
+                        ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isSignUp = !_isSignUp;
+                      });
+                    },
+                    child: Text(
+                      _isSignUp
+                          ? 'Already have an account? Log In'
+                          : "Don't have an account? Sign Up",
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
-                  const SizedBox(height: 16),
                 ],
               ),
             ),

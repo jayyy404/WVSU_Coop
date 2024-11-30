@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wvsu_coop/authentication/sign_up.dart';
+import 'package:wvsu_coop/screens/about_us.dart';
+import 'package:wvsu_coop/screens/contact_us.dart';
+import 'package:wvsu_coop/screens/stalls.dart';
 import 'homepage.dart';
 
 import 'package:firebase_core/firebase_core.dart' hide FirebaseOptions;
@@ -24,20 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
-      home: StreamBuilder<User?>(
-        stream: authService.authStateChanges,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            return const HomePage();
-          } else {
-            return LogInPage(isSignUp: false);
-          }
-        },
-      ),
+      routes: {
+        '/home': (context) => HomePage(),
+        '/login': (context) => const LogInPage(isSignUp: false),
+        '/sign-up': (context) => const SignUpPage(),
+        '/stalls': (context) => StallsPage(),
+        '/about_us': (context) => AboutUsScreen(),
+        '/contact_us': (context) => const ContactUsScreen(),
+      },
+      home: HomePage(),
     );
   }
 }
