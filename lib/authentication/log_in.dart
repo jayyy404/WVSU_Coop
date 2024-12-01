@@ -41,8 +41,10 @@ class _LogInPageState extends State<LogInPage> {
         );
       }
 
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
       );
@@ -61,8 +63,10 @@ class _LogInPageState extends State<LogInPage> {
     try {
       await AuthService().signInAsGuest();
 
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
       );

@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wvsu_coop/authentication/sign_up.dart';
@@ -24,6 +25,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   final AuthService authService = AuthService();
 
+  MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/login': (context) => const LogInPage(isSignUp: false),
         '/sign-up': (context) => const SignUpPage(),
-        '/stalls': (context) => StallsPage(),
+        '/stalls': (context) => const StallsPage(),
         '/about_us': (context) => AboutUsScreen(),
         '/contact_us': (context) => const ContactUsScreen(),
       },

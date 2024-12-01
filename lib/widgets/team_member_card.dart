@@ -5,7 +5,7 @@ class TeamMemberCard extends StatelessWidget {
   final String role;
   final String imagePath;
 
-  TeamMemberCard({
+  const TeamMemberCard({super.key, 
     required this.name,
     required this.role,
     required this.imagePath,

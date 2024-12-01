@@ -6,7 +6,7 @@ class StallCard extends StatelessWidget {
   final String description;
   final String imagePath;
 
-  const StallCard({
+  const StallCard({super.key, 
     required this.name,
     required this.priceRange,
     required this.description,

@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
     // Proceed to the route if the user is authenticated or unrestricted
     if (unrestrictedRoutes.contains(route) ||
         AuthService().getCurrentUser() != null) {
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, route);
     }
   }
@@ -52,6 +53,7 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ],

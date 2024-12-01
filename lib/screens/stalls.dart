@@ -19,7 +19,10 @@ class Stall {
 }
 
 class StallsPage extends StatefulWidget {
+  const StallsPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _StallsPageState createState() => _StallsPageState();
 }
 
@@ -261,6 +264,7 @@ class _StallsPageState extends State<StallsPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -299,9 +303,9 @@ class _StallsPageState extends State<StallsPage> {
                     padding: const EdgeInsets.all(8.0),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 15,
                       childAspectRatio: 0.75,
                     ),
                     itemCount: filteredStalls.length,
@@ -320,7 +324,7 @@ class _StallsPageState extends State<StallsPage> {
                               Image.asset(
                                 stall.image,
                                 fit: BoxFit.cover,
-                                height: 120,
+                                height: 300,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
