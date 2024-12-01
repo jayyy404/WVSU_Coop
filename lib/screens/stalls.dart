@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+class Meal {
+  final String name;
+  final double price;
+
+  Meal({required this.name, required this.price});
+}
+
 class Stall {
   final int id;
   final String name;
@@ -7,6 +14,7 @@ class Stall {
   final String description;
   final String location;
   final String image;
+  final List<Meal> meals;
 
   Stall({
     required this.id,
@@ -15,6 +23,7 @@ class Stall {
     required this.description,
     required this.location,
     required this.image,
+    required this.meals,
   });
 }
 
@@ -29,6 +38,7 @@ class StallsPage extends StatefulWidget {
 class _StallsPageState extends State<StallsPage> {
   int? selectedStallIndex;
   List<String> selectedLocations = [];
+  Map<Meal, bool> cart = {};
   final List<Stall> stalls = [
     Stall(
       id: 1,
@@ -38,6 +48,12 @@ class _StallsPageState extends State<StallsPage> {
           'A delightful stop for milktea enthusiasts and snack lovers alike, IloveMilktea Store offers a variety of savory snacks and refreshing drinks. Enjoy their classic siopao and crispy lumpiang shanghai paired with a perfectly brewed wintermelon or taro milktea.',
       location: '2nd Floor',
       image: 'assets/stalls/lovemilktea.jpg',
+      meals: [
+      Meal(name: 'Siopao', price: 20.0),
+      Meal(name: 'Lumpiang Shanghai', price: 30.0),
+      Meal(name: 'Wintermelon Milktea', price: 50.0),
+      Meal(name: 'Taro Milktea', price: 50.0),
+    ]
     ),
     Stall(
       id: 2,
@@ -47,6 +63,13 @@ class _StallsPageState extends State<StallsPage> {
           'This cozy café provides a warm atmosphere with its pink-themed decor. The menu features comforting snacks like toast with butter, ensaymada, and delicious cookies, alongside rich brewed and iced coffee options to fuel your day.',
       location: '2nd Floor',
       image: 'assets/stalls/pinkwall.jpg',
+      meals: [
+      Meal(name: 'Toast with Butter', price: 20.0),
+      Meal(name: 'Ensaymada', price: 30.0),
+      Meal(name: 'Cookies', price: 30.0),
+      Meal(name: 'Brewed Coffee', price: 40.0),
+      Meal(name: 'Iced Coffee', price: 50.0),
+      ]
     ),
     Stall(
       id: 3,
@@ -56,6 +79,11 @@ class _StallsPageState extends State<StallsPage> {
           'Known for its casual vibe, this store serves up tasty bites that are perfect for a quick snack. Indulge in cheese sticks and nachos, or enjoy a classic hotdog on a stick while sipping on a refreshing mango shake or halo-halo.',
       location: '2nd Floor',
       image: 'assets/stalls/greenwall.jpg',
+      meals: [
+      Meal(name: 'Cheese Sticks', price: 20.0),
+      Meal(name: 'Nachos', price: 30.0),
+      Meal(name: 'Hotdog on a Stick', price: 30.0),
+      ]
     ),
     Stall(
       id: 4,
@@ -65,6 +93,12 @@ class _StallsPageState extends State<StallsPage> {
           "Zen's Cafe is all about comfort food and quality beverages. With items like the ube cheese pandesal and hearty tuna sandwich, you can satisfy your cravings. Their coffee selection is a must-try for anyone needing a caffeine fix.",
       location: '2nd Floor',
       image: 'assets/stalls/zencafe.jpg',
+      meals: [
+      Meal(name: 'Ube Cheese Pandesal', price: 20.0),
+      Meal(name: 'Tuna Sandwich', price: 30.0),
+      Meal(name: 'Brewed Coffee', price: 40.0),
+      Meal(name: 'Iced Coffee', price: 50.0),
+      ]
     ),
     Stall(
       id: 5,
@@ -74,6 +108,12 @@ class _StallsPageState extends State<StallsPage> {
           ' Specializing in chicken dishes, Chickbrew is perfect for fried chicken fans. From chicken fillet sandwiches to crunchy wings and nuggets, there’s something for everyone. Pair your meal with their flavorful iced coffee for a complete experience.',
       location: '2nd Floor',
       image: 'assets/stalls/chickbrew.jpg',
+      meals: [
+      Meal(name: 'Chicken Fillet Sandwich', price: 30.0),
+      Meal(name: 'Chicken Wings', price: 40.0),
+      Meal(name: 'Chicken Nuggets', price: 40.0),
+      Meal(name: 'Iced Coffee', price: 50.0),
+      ]
     ),
     Stall(
       id: 6,
@@ -83,6 +123,14 @@ class _StallsPageState extends State<StallsPage> {
           'For those craving Japanese flavors, Mushin Japanese Cafe serves an array of authentic dishes, including takoyaki and chicken ramen. Their gyoza and tempura provide a delightful taste of Japan, complemented by refreshing iced coffee or a matcha latte.',
       location: '2nd Floor',
       image: 'assets/stalls/mushin.jpg',
+      meals: [
+      Meal(name: 'Takoyaki', price: 35.0),
+      Meal(name: 'Chicken Ramen', price: 50.0),
+      Meal(name: 'Gyoza', price: 50.0),
+      Meal(name: 'Tempura', price: 60.0),
+      Meal(name: 'Iced Coffee', price: 60.0),
+      Meal(name: 'Matcha Latte', price: 70.0),
+      ]
     ),
     Stall(
       id: 7,
@@ -92,6 +140,13 @@ class _StallsPageState extends State<StallsPage> {
           'A vibrant stop for value lovers, Green Kiosk offers enticing buy-one-take-one deals on burgers, hotdogs, and nachos. Enjoy hearty meals like chicken BBQ and pancit canton, perfect for sharing or satisfying your hunger solo.',
       location: '1st Floor',
       image: 'assets/stalls/greenkiosk.jpg',
+      meals: [
+      Meal(name: 'Burger', price: 15.0),
+      Meal(name: 'Hotdog', price: 20.0),
+      Meal(name: 'Nachos', price: 20.0),
+      Meal(name: 'Chicken BBQ', price: 30.0),
+      Meal(name: 'Pancit Canton', price: 40.0),
+      ]
     ),
     Stall(
       id: 8,
@@ -101,6 +156,10 @@ class _StallsPageState extends State<StallsPage> {
           'Dinette, etc provides a casual dining experience with its selection of burgers and snacks. Their burger with fries is a favorite, while the chicken nuggets combo offers a satisfying option for those craving comfort food.',
       location: '1st Floor',
       image: 'assets/stalls/dinette.jpg',
+      meals: [
+      Meal(name: 'Burger with Fries', price: 25.0),
+      Meal(name: 'Chicken Nuggets Combo', price: 30.0),
+      ]
     ),
     Stall(
       id: 9,
@@ -110,6 +169,13 @@ class _StallsPageState extends State<StallsPage> {
           'This kiosk specializes in delicious waffles and French toast. Whether you prefer plain or hotdog waffles, Kiosk 1 has a sweet or savory option for everyone. Pair your treat with a hot chocolate or iced coffee for a delightful snack break.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk1.jpg',
+      meals: [
+      Meal(name: 'Plain Waffle', price: 20.0),
+      Meal(name: 'Hotdog Waffle', price: 30.0),
+      Meal(name: 'French Toast', price: 30.0),
+      Meal(name: 'Hot Chocolate', price: 40.0),
+      Meal(name: 'Iced Coffee', price: 50.0),
+      ]
     ),
     Stall(
       id: 10,
@@ -119,6 +185,10 @@ class _StallsPageState extends State<StallsPage> {
           'Kiosk 2 serves traditional Filipino dishes, including pork adobo and chicken curry. Each meal is prepared with authentic flavors, providing a taste of home in every bite. Perfect for those seeking hearty, familiar meals.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk2.jpg',
+      meals: [
+      Meal(name: 'Pork Adobo', price: 40.0),
+      Meal(name: 'Chicken Curry', price: 50.0),
+      ]
     ),
     Stall(
       id: 11,
@@ -128,6 +198,12 @@ class _StallsPageState extends State<StallsPage> {
           'Known for its comfort meals, Kiosk 3 offers fried chicken, lumpia, and classic Filipino favorites like pork sinigang and chicken inasal. Each dish promises to warm your heart and satisfy your taste buds.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk3.jpg',
+      meals: [
+      Meal(name: 'Fried Chicken', price: 45.0),
+      Meal(name: 'Lumpia', price: 45.0),
+      Meal(name: 'Pork Sinigang', price: 50.0),
+      Meal(name: 'Chicken Inasal', price: 50.0),
+      ]
     ),
     Stall(
       id: 12,
@@ -137,6 +213,10 @@ class _StallsPageState extends State<StallsPage> {
           'Kiosk 4 presents a selection of beloved Filipino comfort food, including pork sisig and chicken adobo. With delicious home-cooked flavors, this kiosk is a must-visit for fans of traditional meals.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk4.jpg',
+      meals: [
+      Meal(name: 'Pork Sisig', price: 40.0),
+      Meal(name: 'Chicken Adobo', price: 50.0),
+      ]
     ),
     Stall(
       id: 13,
@@ -146,6 +226,10 @@ class _StallsPageState extends State<StallsPage> {
           "Offering a customizable experience, Kiosk 5 allows you to pick your carenderia meal, which includes rice, one meat, and one veggie. This flexibility, along with favorites like chicken afritada, ensures there's something for everyone.",
       location: '1st Floor',
       image: 'assets/stalls/kiosk5.jpg',
+      meals: [
+      Meal(name: 'Carenderia Meal', price: 40.0),
+      Meal(name: 'Chicken Afritada', price: 50.0),
+      ]
     ),
     Stall(
       id: 14,
@@ -155,6 +239,10 @@ class _StallsPageState extends State<StallsPage> {
           'For those looking for a more filling meal, these kiosks provide hearty options like pork BBQ and beef caldereta. Each dish is generously portioned, making it an ideal choice for a substantial lunch or dinner.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk678.jpg',
+      meals: [
+      Meal(name: 'Pork BBQ', price: 60.0),
+      Meal(name: 'Beef Caldereta', price: 75.0),
+      ]
     ),
     Stall(
       id: 15,
@@ -164,6 +252,10 @@ class _StallsPageState extends State<StallsPage> {
           'Another great waffle destination, Kiosk 9 serves up a variety of waffle options with delicious toppings like cheese and yema. Perfect for a light snack or a sweet treat to brighten your day.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk9.jpg',
+      meals: [
+      Meal(name: 'Cheese Waffle', price: 30.0),
+      Meal(name: 'Yema Waffle', price: 35.0),
+      ]
     ),
     Stall(
       id: 16,
@@ -173,6 +265,13 @@ class _StallsPageState extends State<StallsPage> {
           'Kiosk 10 is a go-to spot for classic Filipino street food. Enjoy favorites like isaw, betamax, and kikiam, or try their refreshing buko juice and melon shake for a satisfying snack break.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk10.jpg',
+      meals: [
+      Meal(name: 'Isaw', price: 20.0),
+      Meal(name: 'Betamax', price: 30.0),
+      Meal(name: 'Kikiam', price: 30.0),
+      Meal(name: 'Buko Juice', price: 40.0),
+      Meal(name: 'Melon Shake', price: 50.0),
+      ]
     ),
     Stall(
       id: 17,
@@ -182,6 +281,13 @@ class _StallsPageState extends State<StallsPage> {
           'Kiosk 11 offers a variety of Filipino snacks and drinks, including fish balls, kwek-kwek, and refreshing gulaman. Their selection of street food favorites is perfect for those looking to enjoy classic flavors on the go.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk11.jpg',
+      meals: [
+      Meal(name: 'Fish Balls', price: 20.0),
+      Meal(name: 'Kwek-Kwek', price: 30.0),
+      Meal(name: 'Gulaman', price: 30.0),
+      Meal(name: 'Buko Juice', price: 40.0),
+      Meal(name: 'Melon Shake', price: 50.0),
+      ]
     ),
     Stall(
       id: 18,
@@ -191,6 +297,12 @@ class _StallsPageState extends State<StallsPage> {
           'This kiosk is a haven for snack lovers, offering a selection of sweet treats like puto and kutsinta. For a refreshing drink, try their ube matcha lemonade or bubble teas, perfect for cooling off on warm days.',
       location: '1st Floor',
       image: 'assets/stalls/kiosk12.jpg',
+      meals: [
+      Meal(name: 'Puto', price: 20.0),
+      Meal(name: 'Kutsinta', price: 30.0),
+      Meal(name: 'Ube Matcha Lemonade', price: 40.0),
+      Meal(name: 'Bubble Tea', price: 50.0),
+      ]
     ),
   ];
 
@@ -204,6 +316,27 @@ class _StallsPageState extends State<StallsPage> {
     setState(() {
       selectedStallIndex = null;
     });
+  }
+
+  double calculateTotalPrice() {
+    return cart.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key.price)
+        .fold(0, (previousValue, element) => previousValue + element);
+  }
+
+  Map<Stall, List<Meal>> groupItemsByStall() {
+    final Map<Stall, List<Meal>> groupedItems = {};
+    for (var entry in cart.entries.where((entry) => entry.value)) {
+      final meal = entry.key;
+      final stall = stalls.firstWhere((stall) => stall.meals.contains(meal));
+      if (groupedItems.containsKey(stall)) {
+        groupedItems[stall]!.add(meal);
+      } else {
+        groupedItems[stall] = [meal];
+      }
+    }
+    return groupedItems;
   }
 
   void navigateStalls(String direction) {
@@ -237,13 +370,86 @@ class _StallsPageState extends State<StallsPage> {
     });
   }
 
+  void handleSelectMeal(Meal meal, bool selected) {
+    setState(() {
+      cart[meal] = selected;
+    });
+  }
+
+  void showMealsModal(BuildContext context, Stall stall) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              height: 400,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    stall.name,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView(
+                      children: stall.meals.map((meal) {
+                        return CheckboxListTile(
+                          title: Text(meal.name),
+                          subtitle: Text('₱${meal.price}'),
+                          value: cart[meal] ?? false,
+                          onChanged: (selected) {
+                            setState(() {
+                              cart[meal] = selected!;
+                            });
+                            handleSelectMeal(meal, selected!);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                    ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                        content: const Text('Items added to cart!'),
+                        actions: [
+                          TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                          ),
+                        ],
+                        );
+                      },
+                      );
+                    },
+                    child: const Text('Add to Cart'),
+                    ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final filteredStalls = stalls.where((stall) {
       return selectedLocations.isEmpty ||
           selectedLocations.contains(stall.location);
     }).toList();
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -295,46 +501,33 @@ class _StallsPageState extends State<StallsPage> {
               }).toList(),
             ),
           ),
-
           // Stall grid
           Expanded(
             child: filteredStalls.isNotEmpty
                 ? GridView.builder(
-                    padding: const EdgeInsets.all(8.0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 15,
-                      childAspectRatio: 0.75,
-                    ),
                     itemCount: filteredStalls.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                    ),
                     itemBuilder: (context, index) {
                       final stall = filteredStalls[index];
                       return GestureDetector(
-                        onTap: () => handleSelectStall(index),
+                        onTap: () => showMealsModal(context, stall),
                         child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                stall.image,
-                                fit: BoxFit.cover,
-                                height: 300,
-                              ),
+                              Image.asset(stall.image, fit: BoxFit.cover),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   stall.name,
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
                                     fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Padding(
@@ -356,6 +549,130 @@ class _StallsPageState extends State<StallsPage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: showCart,
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.shopping_cart),
+      ),
+    );
+  }
+
+  void showOrderConfirmation(BuildContext context, int orderNumber, double totalPrice) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Order Confirmation'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Order #$orderNumber'),
+              const SizedBox(height: 16),
+              const Text(
+                'Total Amount:',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                '₱$totalPrice',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Screenshot this to be shown later at the kiosk/stall.',
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showCart() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        final groupedItems = groupItemsByStall();
+        final totalPrice = calculateTotalPrice();
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          height: 400,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Shopping Cart',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  children: groupedItems.entries.map((entry) {
+                    final stall = entry.key;
+                    final meals = entry.value;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          stall.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        ...meals.map((meal) {
+                          return ListTile(
+                            title: Text(meal.name),
+                            trailing: Text('₱${meal.price}'),
+                          );
+                        }).toList(),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+              const Divider(),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                  'Total: ₱$totalPrice',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ),
+                  ElevatedButton(
+                  onPressed: () {
+                    final orderNumber = DateTime.now().millisecondsSinceEpoch;
+                    setState(() {
+                    cart.clear();
+                    });
+                    Navigator.pop(context);
+                    showOrderConfirmation(context, orderNumber, totalPrice);
+                  },
+                  child: const Text('Submit Order'),
+                  ),
+                ],
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 
