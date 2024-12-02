@@ -446,7 +446,7 @@ class _StallsPageState extends State<StallsPage> {
                       },
                       child: const Text(
                         'Add to Cart',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                   ],
@@ -580,8 +580,8 @@ class _StallsPageState extends State<StallsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: showCart,
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.shopping_cart),
+        backgroundColor: Colors.black.withOpacity(0.9),
+        child: const Icon(Icons.shopping_cart, color: Colors.white,),
       ),
     );
   }
@@ -723,7 +723,7 @@ class _StallsPageState extends State<StallsPage> {
                     },
                     child: const Text(
                       'Done',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
@@ -857,7 +857,7 @@ class _StallsPageState extends State<StallsPage> {
                       },
                       child: const Text(
                         'Submit Order',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                   ],
