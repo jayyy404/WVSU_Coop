@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:wvsu_coop/authentication/auth_service.dart';
+import 'package:wvsu_coop/screens/order_page.dart';
 
 class LogInPage extends StatefulWidget {
   final bool isSignUp;
@@ -33,12 +34,26 @@ class _LogInPageState extends State<LogInPage> {
         await AuthService().signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
+          role: 'user', // Regular user by default
         );
       } else {
         await AuthService().signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+
+        // Check if the user is a store owner after login
+        bool isStoreOwner = await AuthService().isStoreOwner();
+        if (isStoreOwner) {
+          // Navigate to the store owner's orders page
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                OrdersPage(), // Assuming OrdersPage shows orders for store owners
+          ));
+        } else {
+          // Navigate to the regular user's homepage
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
       }
 
       // ignore: use_build_context_synchronously

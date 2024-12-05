@@ -1,20 +1,20 @@
-// ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wvsu_coop/authentication/sign_up.dart';
-import 'package:wvsu_coop/screens/about_us.dart';
-import 'package:wvsu_coop/screens/contact_us.dart';
-import 'package:wvsu_coop/screens/stalls.dart';
-import 'homepage.dart';
-
 import 'package:firebase_core/firebase_core.dart' hide FirebaseOptions;
 import 'firebase_options.dart';
+
 import 'authentication/auth_service.dart';
 import 'authentication/log_in.dart';
+import 'authentication/sign_up.dart';
+import 'screens/about_us.dart';
+import 'screens/contact_us.dart';
+import 'screens/stalls.dart';
+import 'homepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -39,7 +39,21 @@ class MyApp extends StatelessWidget {
         '/about_us': (context) => AboutUsScreen(),
         '/contact_us': (context) => const ContactUsScreen(),
       },
-      home: HomePage(),
+      // Determine initial screen based on user authentication status
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            // User is logged in (either authenticated or anonymous)
+            return HomePage();
+          } else {
+            // User is not logged in, show login page
+            return const LogInPage(isSignUp: false);
+          }
+        },
+      ),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Meal {
   final String name;
@@ -581,9 +583,44 @@ class _StallsPageState extends State<StallsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: showCart,
         backgroundColor: Colors.black.withOpacity(0.9),
-        child: const Icon(Icons.shopping_cart, color: Colors.white,),
+        child: const Icon(
+          Icons.shopping_cart,
+          color: Colors.white,
+        ),
       ),
     );
+  }
+
+  Future<void> saveOrderToFirestore(String userId, int orderNumber,
+      double totalPrice, Map<Stall, List<Meal>> groupedItems) async {
+    final firestore = FirebaseFirestore.instance;
+    final orderData = {
+      'orderNumber': orderNumber,
+      'totalPrice': totalPrice,
+      'timestamp': FieldValue.serverTimestamp(),
+      'items': groupedItems.entries.map((entry) {
+        return {
+          'stall': entry.key.name,
+          'meals': entry.value
+              .map((meal) => {
+                    'name': meal.name,
+                    'price': meal.price,
+                  })
+              .toList(),
+        };
+      }).toList(),
+    };
+
+    try {
+      await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('orders')
+          .add(orderData);
+      print('Order saved successfully.');
+    } catch (e) {
+      print('Error saving order: $e');
+    }
   }
 
   void showOrderConfirmation(
@@ -809,7 +846,9 @@ class _StallsPageState extends State<StallsPage> {
                                   trailing: Text(
                                     '₱${meal.price.toStringAsFixed(2)}',
                                     style: const TextStyle(
-                                        fontSize: 16, color: Colors.teal),
+                                      fontSize: 16,
+                                      color: Colors.teal,
+                                    ),
                                   ),
                                 ),
                               );
@@ -845,15 +884,30 @@ class _StallsPageState extends State<StallsPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         final orderNumber =
                             DateTime.now().millisecondsSinceEpoch;
-                        setState(() {
-                          cart.clear();
-                        });
-                        Navigator.pop(context);
-                        showOrderConfirmation(context, orderNumber, totalPrice,
-                            cart.keys.toList());
+                        final user = FirebaseAuth.instance.currentUser;
+
+                        if (user != null) {
+                          final userId = user.uid;
+                          await saveOrderToFirestore(
+                              userId, orderNumber, totalPrice, groupedItems);
+                          setState(() {
+                            cart.clear();
+                          });
+                          Navigator.pop(context);
+                          showOrderConfirmation(context, orderNumber,
+                              totalPrice, cart.keys.toList());
+                        } else {
+                          // Handle unauthenticated users
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please log in to submit your order.'),
+                            ),
+                          );
+                        }
                       },
                       child: const Text(
                         'Submit Order',

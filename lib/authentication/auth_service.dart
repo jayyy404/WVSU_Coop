@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Stream to track authentication state
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -10,6 +12,7 @@ class AuthService {
   Future<UserCredential?> signUp({
     required String email,
     required String password,
+    required String role, // Add role parameter
   }) async {
     try {
       UserCredential userCredential =
@@ -17,6 +20,12 @@ class AuthService {
         email: email,
         password: password,
       );
+
+      // Store the role in Firestore
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': email,
+        'role': role, // Store role in Firestore ('user' or 'storeOwner')
+      });
 
       await userCredential.user?.updateDisplayName('New User');
       await userCredential.user?.reload();
@@ -43,6 +52,18 @@ class AuthService {
         email: email,
         password: password,
       );
+
+      // After sign-in, fetch the role from Firestore
+      final userDoc = await _firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
+      if (userDoc.exists) {
+        final role = userDoc.data()?['role'];
+        // You can add more logic here to handle roles differently
+        print('User Role: $role');
+      }
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -103,5 +124,16 @@ class AuthService {
   // Get current user
   User? getCurrentUser() {
     return _auth.currentUser;
+  }
+
+  // Check if the current user is a store owner
+  Future<bool> isStoreOwner() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return false;
+    }
+
+    final userDoc = await _firestore.collection('users').doc(user.uid).get();
+    return userDoc.exists && userDoc.data()?['role'] == 'storeOwner';
   }
 }
