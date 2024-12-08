@@ -48,7 +48,7 @@ class _LogInPageState extends State<LogInPage> {
           // Navigate to the store owner's orders page
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) =>
-                OrdersPage(), // Assuming OrdersPage shows orders for store owners
+                const OrdersPage(), // Assuming OrdersPage shows orders for store owners
           ));
         } else {
           // Navigate to the regular user's homepage
@@ -78,8 +78,9 @@ class _LogInPageState extends State<LogInPage> {
     try {
       await AuthService().signInAsGuest();
 
+      // Navigate to the home page after signing in as a guest
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/home');
     } catch (e) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(

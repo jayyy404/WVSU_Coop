@@ -21,6 +21,7 @@ class StallCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
+        side: BorderSide(color: Colors.grey.shade300),
       ),
       child: Column(
         children: [
@@ -30,11 +31,11 @@ class StallCard extends StatelessWidget {
               topRight: Radius.circular(8.0),
             ),
             child: SizedBox(
-              height: 120.0, // Adjust the height as needed
+              height: 250.0, // Adjust the height as needed
               width: double.infinity,
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.fitHeight, // Ensure the image fills the space
+                fit: BoxFit.cover, // Ensure the image fills the space
               ),
             ),
           ),

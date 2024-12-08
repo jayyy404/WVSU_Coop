@@ -358,7 +358,7 @@ class _StallsPageState extends State<StallsPage> {
           ),
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            width: MediaQuery.of(context).size.width * 0.8, // Responsive width
+            width: MediaQuery.of(context).size.width * 0.5, // Responsive width
             child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return Column(
@@ -373,7 +373,7 @@ class _StallsPageState extends State<StallsPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
 
                     // Meals List
                     Flexible(
@@ -468,13 +468,15 @@ class _StallsPageState extends State<StallsPage> {
           selectedLocations.contains(stall.location);
     }).toList();
 
-    double containerWidth = MediaQuery.of(context).size.width;
+    // double containerWidth = MediaQuery.of(context).size.width;
+    // double containerWidth = 200;
+
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
-        elevation: 0,
+        elevation: 8,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -484,7 +486,7 @@ class _StallsPageState extends State<StallsPage> {
                   backgroundImage: AssetImage('assets/coop.jpg'),
                   radius: 20,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 15),
                 Text(
                   'WVSU Canteen',
                   style: TextStyle(
@@ -509,6 +511,7 @@ class _StallsPageState extends State<StallsPage> {
       body: SingleChildScrollView(
         // Wrap the whole body with SingleChildScrollView
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -526,65 +529,70 @@ class _StallsPageState extends State<StallsPage> {
             // Stall grid with consistent item size
             filteredStalls.isNotEmpty
             ? LayoutBuilder(
-                builder: (context, constraints) {
-                  int crossAxisCount = (constraints.maxWidth / 200).floor();
-                  if (crossAxisCount < 2) crossAxisCount = 2; 
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredStalls.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      childAspectRatio: 1,  
-                    ),
-                    itemBuilder: (context, index) {
-                      final stall = filteredStalls[index];
-                      return GestureDetector(
-                        onTap: () => showMealsModal(context, stall),
-                        child: Card(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 110,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(stall.image),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  stall.name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  maxLines: 1, // Limit to 1 line
-                                  overflow: TextOverflow.ellipsis, 
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  stall.priceRange,
-                                  style: const TextStyle(
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ),
-                            ],
+              builder: (context, constraints) {
+                int crossAxisCount = (constraints.maxWidth * 0.8 / 200).floor();
+                if (crossAxisCount < 2) crossAxisCount = 2; 
+                return Center(
+                child: SizedBox(
+                  width: constraints.maxWidth * 0.8,
+                  child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: filteredStalls.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 1,  
+                  ),
+                  itemBuilder: (context, index) {
+                    final stall = filteredStalls[index];
+                    return GestureDetector(
+                    onTap: () => showMealsModal(context, stall),
+                    child: Card(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                        width: double.infinity,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                          image: AssetImage(stall.image),
+                          fit: BoxFit.cover,
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          stall.name,
+                          style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1, // Limit to 1 line
+                          overflow: TextOverflow.ellipsis, 
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          stall.priceRange,
+                          style: const TextStyle(
+                          color: Colors.green,
+                          ),
+                        ),
+                        ),
+                      ],
+                      ),
+                    ),
+                    );
+                  },
+                  ),
+                ),
+                );
+              },
               )
             : const Center(child: Text('No stalls available')),
 

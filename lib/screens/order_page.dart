@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrdersPage extends StatefulWidget {
-  const OrdersPage({Key? key}) : super(key: key);
+  const OrdersPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OrdersPageState createState() => _OrdersPageState();
 }
 
@@ -96,7 +97,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 const SizedBox(height: 8),
                 Text('Total Price: ₱${orderData['totalPrice']}'),
                 const SizedBox(height: 8),
-                Text('Items:'),
+                const Text('Items:'),
                 ...orderData['items'].map<Widget>((item) {
                   return Text('${item['name']} - ₱${item['price']}');
                 }).toList(),
