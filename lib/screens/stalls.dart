@@ -525,15 +525,19 @@ class _StallsPageState extends State<StallsPage> {
             ),
             // Stall grid with consistent item size
             filteredStalls.isNotEmpty
-                ? GridView.builder(
+            ? LayoutBuilder(
+                builder: (context, constraints) {
+                  int crossAxisCount = (constraints.maxWidth / 200).floor();
+                  if (crossAxisCount < 2) crossAxisCount = 2; 
+                  return GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: filteredStalls.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
+                      crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 10.0,
                       mainAxisSpacing: 10.0,
-                      childAspectRatio: (containerWidth / 4) / 200, //
+                      childAspectRatio: 1,  
                     ),
                     itemBuilder: (context, index) {
                       final stall = filteredStalls[index];
@@ -541,14 +545,16 @@ class _StallsPageState extends State<StallsPage> {
                         onTap: () => showMealsModal(context, stall),
                         child: Card(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 width: double.infinity,
                                 height: 110,
-                                child: Image.asset(
-                                  stall.image,
-                                  fit: BoxFit.cover,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(stall.image),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -559,6 +565,8 @@ class _StallsPageState extends State<StallsPage> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  maxLines: 1, // Limit to 1 line
+                                  overflow: TextOverflow.ellipsis, 
                                 ),
                               ),
                               Padding(
@@ -575,8 +583,11 @@ class _StallsPageState extends State<StallsPage> {
                         ),
                       );
                     },
-                  )
-                : const Center(child: Text('No stalls available')),
+                  );
+                },
+              )
+            : const Center(child: Text('No stalls available')),
+
           ],
         ),
       ),
