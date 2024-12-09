@@ -71,94 +71,109 @@ class AboutUsScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          // Header Section
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Meet the Team',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Get to know the creative minds behind our work!',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          // Team Members Grid
-          Expanded(
-            child: GridView.builder(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 200.0, vertical: 5.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 columns
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 1.0,
-              ),
-              itemCount: teamMembers.length,
-              itemBuilder: (context, index) {
-                final member = teamMembers[index];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double maxWidth = constraints.maxWidth;
+
+          return Column(
+            children: [
+              // Header Section
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(member['image']!),
-                      radius: 100,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      member['name']!,
-                      style: const TextStyle(
-                        fontSize: 16,
+                    const Text(
+                      'Meet the Team',
+                      style: TextStyle(
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      member['role']!,
-                      style: const TextStyle(
-                        fontSize: 14,
                         color: Colors.blue,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.facebook, size: 16),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.twitter, size: 16),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.linkedin, size: 16),
-                          onPressed: () {},
-                        ),
-                      ],
+                    Text(
+                      'Get to know the creative minds behind our work!',
+                      style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                      textAlign: TextAlign.center,
                     ),
                   ],
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+              // Team Members Grid
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: maxWidth > 1000 ? 200 : 16,
+                    vertical: 16.0,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: maxWidth > 1200
+                        ? 4
+                        : maxWidth > 800
+                            ? 3
+                            : maxWidth > 600
+                                ? 2
+                                : 1,
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 16.0,
+                  ),
+                  itemCount: teamMembers.length,
+                  itemBuilder: (context, index) {
+                    final member = teamMembers[index];
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage(member['image']!),
+                          radius: maxWidth > 600 ? 80 : 60,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          member['name']!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          member['role']!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.blue,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const FaIcon(
+                                  FontAwesomeIcons.facebook,
+                                  size: 16),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: const FaIcon(FontAwesomeIcons.twitter,
+                                  size: 16),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: const FaIcon(FontAwesomeIcons.linkedin,
+                                  size: 16),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

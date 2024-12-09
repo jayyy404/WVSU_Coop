@@ -166,9 +166,13 @@ class _LogInPageState extends State<LogInPage> {
                               ),
                               child: Text(
                                 _isSignUp ? 'Sign Up' : 'Log In',
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white, // Set the text color to white
+                                ),
                               ),
                             ),
+
                             const SizedBox(height: 8),
                             TextButton(
                               onPressed: _logInAsGuest,

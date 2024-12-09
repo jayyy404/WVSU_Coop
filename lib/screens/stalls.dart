@@ -477,37 +477,79 @@ class _StallsPageState extends State<StallsPage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 8,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Row(
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/coop.jpg'),
-                  radius: 20,
+                const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage('assets/coop.jpg'),
+                      radius: 20,
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      'WVSU Canteen',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 15),
-                Text(
-                  'WVSU Canteen',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+
+                // Navigation Buttons Section
+                constraints.maxWidth > 600
+                    ? Row(
+                        children: [
+                          _buildNavButton(context, 'Home', false),
+                          _buildNavButton(context, 'Stalls', true),
+                          _buildNavButton(context, 'About Us', false),
+                          _buildNavButton(context, 'Contact Us', false),
+                        ],
+                      )
+                    : IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.white),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: const Text('Home'),
+                                    onTap: () => Navigator.pushNamed(context, '/'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Stalls'),
+                                    onTap: () => Navigator.pushNamed(context, '/stalls'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('About Us'),
+                                    onTap: () => Navigator.pushNamed(context, '/about_us'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Contact Us'),
+                                    onTap: () => Navigator.pushNamed(context, '/contact_us'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
               ],
-            ),
-            Row(
-              children: [
-                _buildNavButton(context, 'Home', false),
-                _buildNavButton(context, 'Stalls', true),
-                _buildNavButton(context, 'About Us', false),
-                _buildNavButton(context, 'Contact Us', false),
-              ],
-            ),
-          ],
+            );
+          },
         ),
       ),
+
+
+
       body: SingleChildScrollView(
         // Wrap the whole body with SingleChildScrollView
         child: Column(
