@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wvsu_coop/screens/custom_app_bar.dart';
 
 class AboutUsScreen extends StatelessWidget {
   final List<Map<String, String>> teamMembers = [
@@ -36,160 +37,124 @@ class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey[850],
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/coop.jpg'),
-                  radius: 20,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'WVSU Canteen',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                _buildNavButton(context, 'Home', false),
-                _buildNavButton(context, 'Stalls', false),
-                _buildNavButton(context, 'About Us', true),
-                _buildNavButton(context, 'Contact Us', false),
-              ],
-            ),
-          ],
-        ),
-      ),
-      body: Column(
-        children: [
-          // Header Section
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Meet the Team',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Get to know the creative minds behind our work!',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          // Team Members Grid
-          Expanded(
-            child: GridView.builder(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 200.0, vertical: 5.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 columns
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 1.0,
-              ),
-              itemCount: teamMembers.length,
-              itemBuilder: (context, index) {
-                final member = teamMembers[index];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(member['image']!),
-                      radius: 100,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      member['name']!,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      member['role']!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.blue,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+      appBar: const CustomAppBar(currentPage: 'About Us'),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double maxWidth = constraints.maxWidth;
+
+          // Set the number of columns based on screen width
+          int crossAxisCount = maxWidth > 800
+              ? 3
+              : maxWidth > 600
+                  ? 2
+                  : 1;
+
+          double avatarRadius = maxWidth > 600 ? 90 : 70;
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Column(
                       children: [
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.facebook, size: 16),
-                          onPressed: () {},
+                        Text(
+                          'Meet the Team',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
                         ),
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.twitter, size: 16),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon:
-                              const FaIcon(FontAwesomeIcons.linkedin, size: 16),
-                          onPressed: () {},
+                        SizedBox(height: 8),
+                        Text(
+                          'Get to know the creative minds behind our work!',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
-                  ],
-                );
-              },
+                  ),
+                  const SizedBox(height: 16),
+                  // Team Members Grid
+                  GridView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    shrinkWrap: true, // Shrink the GridView to avoid overflow
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 16.0,
+                      mainAxisSpacing: 16.0,
+                      childAspectRatio: maxWidth > 600 ? 0.8 : 0.9,
+                    ),
+                    itemCount: teamMembers.length,
+                    itemBuilder: (context, index) {
+                      final member = teamMembers[index];
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Profile Image
+                          CircleAvatar(
+                            backgroundImage: AssetImage(member['image']!),
+                            radius: avatarRadius,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            member['name']!,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                          ),
+                          Text(
+                            member['role']!,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.blue,
+                            ),
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.facebook,
+                                  size: 16,
+                                ),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.twitter,
+                                  size: 16,
+                                ),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.linkedin,
+                                  size: 16,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavButton(BuildContext context, String label, bool isActive) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: TextButton(
-        onPressed: () {
-          switch (label) {
-            case 'Home':
-              Navigator.pushNamed(context, '/');
-              break;
-            case 'Stalls':
-              Navigator.pushNamed(context, '/stalls');
-              break;
-            case 'About Us':
-              Navigator.pushNamed(context, '/about_us');
-              break;
-            case 'Contact Us':
-              Navigator.pushNamed(context, '/contact_us');
-              break;
-          }
+          );
         },
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.grey,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
       ),
     );
   }

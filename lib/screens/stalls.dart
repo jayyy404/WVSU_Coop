@@ -134,7 +134,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱15 - ₱50',
         description:
             'A vibrant stop for value lovers, Green Kiosk offers enticing buy-one-take-one deals on burgers, hotdogs, and nachos. Enjoy hearty meals like chicken BBQ and pancit canton, perfect for sharing or satisfying your hunger solo.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/greenkiosk.jpg',
         meals: [
           Meal(name: 'Burger', price: 15.0),
@@ -149,7 +149,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱25 - ₱50',
         description:
             'Dinette, etc provides a casual dining experience with its selection of burgers and snacks. Their burger with fries is a favorite, while the chicken nuggets combo offers a satisfying option for those craving comfort food.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/dinette.jpg',
         meals: [
           Meal(name: 'Burger with Fries', price: 25.0),
@@ -161,7 +161,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱20 - ₱55',
         description:
             'This kiosk specializes in delicious waffles and French toast. Whether you prefer plain or hotdog waffles, Kiosk 1 has a sweet or savory option for everyone. Pair your treat with a hot chocolate or iced coffee for a delightful snack break.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk1.jpg',
         meals: [
           Meal(name: 'Plain Waffle', price: 20.0),
@@ -176,7 +176,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱40 - ₱55',
         description:
             'Kiosk 2 serves traditional Filipino dishes, including pork adobo and chicken curry. Each meal is prepared with authentic flavors, providing a taste of home in every bite. Perfect for those seeking hearty, familiar meals.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk2.jpg',
         meals: [
           Meal(name: 'Pork Adobo', price: 40.0),
@@ -188,7 +188,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱45 - ₱55',
         description:
             'Known for its comfort meals, Kiosk 3 offers fried chicken, lumpia, and classic Filipino favorites like pork sinigang and chicken inasal. Each dish promises to warm your heart and satisfy your taste buds.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk3.jpg',
         meals: [
           Meal(name: 'Fried Chicken', price: 45.0),
@@ -202,7 +202,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱40 - ₱50',
         description:
             'Kiosk 4 presents a selection of beloved Filipino comfort food, including pork sisig and chicken adobo. With delicious home-cooked flavors, this kiosk is a must-visit for fans of traditional meals.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk4.jpg',
         meals: [
           Meal(name: 'Pork Sisig', price: 40.0),
@@ -214,7 +214,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱40 - ₱55',
         description:
             "Offering a customizable experience, Kiosk 5 allows you to pick your carenderia meal, which includes rice, one meat, and one veggie. This flexibility, along with favorites like chicken afritada, ensures there's something for everyone.",
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk5.jpg',
         meals: [
           Meal(name: 'Carenderia Meal', price: 40.0),
@@ -226,7 +226,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱60 - ₱75',
         description:
             'For those looking for a more filling meal, these kiosks provide hearty options like pork BBQ and beef caldereta. Each dish is generously portioned, making it an ideal choice for a substantial lunch or dinner.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk678.jpg',
         meals: [
           Meal(name: 'Pork BBQ', price: 60.0),
@@ -238,7 +238,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱30 - ₱35',
         description:
             'Another great waffle destination, Kiosk 9 serves up a variety of waffle options with delicious toppings like cheese and yema. Perfect for a light snack or a sweet treat to brighten your day.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk9.jpg',
         meals: [
           Meal(name: 'Cheese Waffle', price: 30.0),
@@ -250,7 +250,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱20 - ₱55',
         description:
             'Kiosk 10 is a go-to spot for classic Filipino street food. Enjoy favorites like isaw, betamax, and kikiam, or try their refreshing buko juice and melon shake for a satisfying snack break.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk10.jpg',
         meals: [
           Meal(name: 'Isaw', price: 20.0),
@@ -265,7 +265,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱20 - ₱55',
         description:
             'Kiosk 11 offers a variety of Filipino snacks and drinks, including fish balls, kwek-kwek, and refreshing gulaman. Their selection of street food favorites is perfect for those looking to enjoy classic flavors on the go.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk11.jpg',
         meals: [
           Meal(name: 'Fish Balls', price: 20.0),
@@ -280,7 +280,7 @@ class _StallsPageState extends State<StallsPage> {
         priceRange: '₱20 - ₱60',
         description:
             'This kiosk is a haven for snack lovers, offering a selection of sweet treats like puto and kutsinta. For a refreshing drink, try their ube matcha lemonade or bubble teas, perfect for cooling off on warm days.',
-        location: '1st Floor',
+        location: 'Ground Floor',
         image: 'assets/stalls/kiosk12.jpg',
         meals: [
           Meal(name: 'Puto', price: 20.0),
@@ -468,56 +468,104 @@ class _StallsPageState extends State<StallsPage> {
           selectedLocations.contains(stall.location);
     }).toList();
 
-    // double containerWidth = MediaQuery.of(context).size.width;
-    // double containerWidth = 200;
-
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
         elevation: 8,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Row(
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/coop.jpg'),
-                  radius: 20,
+                const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage('assets/coop.jpg'),
+                      radius: 20,
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      'WVSU Canteen',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 15),
-                Text(
-                  'WVSU Canteen',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+
+                // Navigation Buttons Section
+                constraints.maxWidth > 600
+                    ? Row(
+                        children: [
+                          _buildNavButton(context, 'Home', false),
+                          _buildNavButton(context, 'Stalls', true),
+                          _buildNavButton(context, 'About Us', false),
+                          _buildNavButton(context, 'Contact Us', false),
+                        ],
+                      )
+                    : IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.white),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: const Text('Home'),
+                                    onTap: () => Navigator.pushNamed(context, '/home'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Stalls'),
+                                    onTap: () => Navigator.pushNamed(context, '/stalls'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('About Us'),
+                                    onTap: () => Navigator.pushNamed(context, '/about_us'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Contact Us'),
+                                    onTap: () => Navigator.pushNamed(context, '/contact_us'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
               ],
-            ),
-            Row(
-              children: [
-                _buildNavButton(context, 'Home', false),
-                _buildNavButton(context, 'Stalls', true),
-                _buildNavButton(context, 'About Us', false),
-                _buildNavButton(context, 'Contact Us', false),
-              ],
-            ),
-          ],
+            );
+          },
         ),
       ),
+
+
+
       body: SingleChildScrollView(
         // Wrap the whole body with SingleChildScrollView
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Filter by Location:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Wrap(
                 spacing: 10.0,
-                children: ['1st Floor', 'Outside', '2nd Floor'].map((location) {
+                children: ['Ground Floor', 'Outdoor', '2nd Floor'].map((location) {
                   return FilterChip(
                     label: Text(location),
                     selected: selectedLocations.contains(location),
@@ -526,6 +574,7 @@ class _StallsPageState extends State<StallsPage> {
                 }).toList(),
               ),
             ),
+            const SizedBox(height: 20),
             // Stall grid with consistent item size
             filteredStalls.isNotEmpty
             ? LayoutBuilder(
@@ -805,137 +854,138 @@ class _StallsPageState extends State<StallsPage> {
     return groupedItems;
   }
 
-  void showCart() {
+    void showCart() {
     showDialog(
       context: context,
       builder: (context) {
         final groupedItems = groupItemsByStall();
         final totalPrice = calculateTotalPrice();
+
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            height: 400,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text(
-                    'Shopping Cart',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Column(
-                  children: groupedItems.entries.map((entry) {
-                    final stall = entry.key;
-                    final meals = entry.value;
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            stalls.firstWhere((s) => s.id == stall.id).name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal[700],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Column(
-                            children: meals.map((meal) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  title: Text(
-                                    meal.name,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  trailing: Text(
-                                    '₱${meal.price.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.teal,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const Divider(),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Total Price Display
-                    Text(
-                      'Total: ₱${totalPrice.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 20,
+            child: SingleChildScrollView(  
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      'Shopping Cart',
+                      style: TextStyle(
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.teal,
                       ),
                     ),
-
-                    // Submit Order Button
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  ),
+                  const SizedBox(height: 16),
+                  Column(
+                    children: groupedItems.entries.map((entry) {
+                      final stall = entry.key;
+                      final meals = entry.value;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              stalls.firstWhere((s) => s.id == stall.id).name,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.teal[700],
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: meals.map((meal) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0),
+                                  child: ListTile(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    title: Text(
+                                      meal.name,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    trailing: Text(
+                                      '₱${meal.price.toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.teal,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Total Price Display
+                      Text(
+                        'Total: ₱${totalPrice.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
                         ),
                       ),
-                      onPressed: () async {
-                        final orderNumber =
-                            DateTime.now().millisecondsSinceEpoch;
-                        final user = FirebaseAuth.instance.currentUser;
 
-                        if (user != null) {
-                          final userId = user.uid;
-                          await saveOrderToFirestore(
-                              userId, orderNumber, totalPrice, groupedItems);
-                          setState(() {
-                            cart.clear();
-                          });
-                          Navigator.pop(context);
-                          showOrderConfirmation(context, orderNumber,
-                              totalPrice, cart.keys.toList());
-                        } else {
-                          // Handle unauthenticated users
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please log in to submit your order.'),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text(
-                        'Submit Order',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      // Submit Order Button
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () async {
+                          final orderNumber =
+                              DateTime.now().millisecondsSinceEpoch;
+                          final user = FirebaseAuth.instance.currentUser;
+
+                          if (user != null) {
+                            final userId = user.uid;
+                            await saveOrderToFirestore(
+                                userId, orderNumber, totalPrice, groupedItems);
+                            setState(() {
+                              cart.clear();
+                            });
+                            Navigator.pop(context);
+                            showOrderConfirmation(context, orderNumber,
+                                totalPrice, cart.keys.toList());
+                          } else {
+                            // Handle unauthenticated users
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please log in to submit your order.'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Submit Order',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -943,12 +993,13 @@ class _StallsPageState extends State<StallsPage> {
     );
   }
 
+
   Widget _buildNavButton(BuildContext context, String label, bool isActive) {
     return TextButton(
       onPressed: () {
         switch (label) {
           case 'Home':
-            Navigator.pushNamed(context, '/');
+            Navigator.pushNamed(context, '/home');
             break;
           case 'Stalls':
             Navigator.pushNamed(context, '/stalls');
