@@ -522,7 +522,7 @@ class _StallsPageState extends State<StallsPage> {
                                 children: [
                                   ListTile(
                                     title: const Text('Home'),
-                                    onTap: () => Navigator.pushNamed(context, '/'),
+                                    onTap: () => Navigator.pushNamed(context, '/home'),
                                   ),
                                   ListTile(
                                     title: const Text('Stalls'),
@@ -847,137 +847,138 @@ class _StallsPageState extends State<StallsPage> {
     return groupedItems;
   }
 
-  void showCart() {
+    void showCart() {
     showDialog(
       context: context,
       builder: (context) {
         final groupedItems = groupItemsByStall();
         final totalPrice = calculateTotalPrice();
+
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            height: 400,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text(
-                    'Shopping Cart',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Column(
-                  children: groupedItems.entries.map((entry) {
-                    final stall = entry.key;
-                    final meals = entry.value;
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            stalls.firstWhere((s) => s.id == stall.id).name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal[700],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Column(
-                            children: meals.map((meal) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  title: Text(
-                                    meal.name,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  trailing: Text(
-                                    '₱${meal.price.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.teal,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const Divider(),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Total Price Display
-                    Text(
-                      'Total: ₱${totalPrice.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 20,
+            child: SingleChildScrollView(  
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      'Shopping Cart',
+                      style: TextStyle(
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.teal,
                       ),
                     ),
-
-                    // Submit Order Button
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  ),
+                  const SizedBox(height: 16),
+                  Column(
+                    children: groupedItems.entries.map((entry) {
+                      final stall = entry.key;
+                      final meals = entry.value;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              stalls.firstWhere((s) => s.id == stall.id).name,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.teal[700],
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: meals.map((meal) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0),
+                                  child: ListTile(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    title: Text(
+                                      meal.name,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    trailing: Text(
+                                      '₱${meal.price.toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.teal,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Total Price Display
+                      Text(
+                        'Total: ₱${totalPrice.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
                         ),
                       ),
-                      onPressed: () async {
-                        final orderNumber =
-                            DateTime.now().millisecondsSinceEpoch;
-                        final user = FirebaseAuth.instance.currentUser;
 
-                        if (user != null) {
-                          final userId = user.uid;
-                          await saveOrderToFirestore(
-                              userId, orderNumber, totalPrice, groupedItems);
-                          setState(() {
-                            cart.clear();
-                          });
-                          Navigator.pop(context);
-                          showOrderConfirmation(context, orderNumber,
-                              totalPrice, cart.keys.toList());
-                        } else {
-                          // Handle unauthenticated users
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please log in to submit your order.'),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text(
-                        'Submit Order',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      // Submit Order Button
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () async {
+                          final orderNumber =
+                              DateTime.now().millisecondsSinceEpoch;
+                          final user = FirebaseAuth.instance.currentUser;
+
+                          if (user != null) {
+                            final userId = user.uid;
+                            await saveOrderToFirestore(
+                                userId, orderNumber, totalPrice, groupedItems);
+                            setState(() {
+                              cart.clear();
+                            });
+                            Navigator.pop(context);
+                            showOrderConfirmation(context, orderNumber,
+                                totalPrice, cart.keys.toList());
+                          } else {
+                            // Handle unauthenticated users
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please log in to submit your order.'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Submit Order',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -985,12 +986,13 @@ class _StallsPageState extends State<StallsPage> {
     );
   }
 
+
   Widget _buildNavButton(BuildContext context, String label, bool isActive) {
     return TextButton(
       onPressed: () {
         switch (label) {
           case 'Home':
-            Navigator.pushNamed(context, '/');
+            Navigator.pushNamed(context, '/home');
             break;
           case 'Stalls':
             Navigator.pushNamed(context, '/stalls');

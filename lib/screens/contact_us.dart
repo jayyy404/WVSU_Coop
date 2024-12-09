@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wvsu_coop/screens/custom_app_bar.dart';
 
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({super.key});
@@ -6,44 +7,7 @@ class ContactUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey[850],
-        elevation: 0,
-        leading: null,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Left logo
-            const Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/coop.jpg'),
-                  radius: 20,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'WVSU Canteen',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            // Navigation items
-            Row(
-              children: [
-                _buildNavButton(context, 'Home', false),
-                _buildNavButton(context, 'Stalls', false),
-                _buildNavButton(context, 'About Us', false),
-                _buildNavButton(context, 'Contact Us', true),
-              ],
-            ),
-          ],
-        ),
-      ),
+      appBar: const CustomAppBar(currentPage: 'Contact Us'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -76,12 +40,14 @@ class ContactUsScreen extends StatelessWidget {
             // Contact Info Grid Section
             LayoutBuilder(
               builder: (context, constraints) {
-                double horizontalPadding = constraints.maxWidth > 800 ? 200 : 16;
-                int crossAxisCount = constraints.maxWidth > 1000
-                    ? 3
-                    : constraints.maxWidth > 600
-                        ? 2
-                        : 1;
+                int crossAxisCount = 2;  
+
+                double horizontalPadding = 16.0;
+
+                if (constraints.maxWidth > 1000) {
+                  crossAxisCount = 2;
+                  horizontalPadding = 200;
+                }
 
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -92,7 +58,7 @@ class ContactUsScreen extends StatelessWidget {
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
-                      childAspectRatio: 4 / 3,
+                      childAspectRatio: 1, 
                     ),
                     children: [
                       _buildContactBox(
@@ -122,34 +88,6 @@ class ContactUsScreen extends StatelessWidget {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavButton(BuildContext context, String label, bool isActive) {
-    return TextButton(
-      onPressed: () {
-        switch (label) {
-          case 'Home':
-            Navigator.pushNamed(context, '/');
-            break;
-          case 'Stalls':
-            Navigator.pushNamed(context, '/stalls');
-            break;
-          case 'About Us':
-            Navigator.pushNamed(context, '/about_us');
-            break;
-          case 'Contact Us':
-            Navigator.pushNamed(context, '/contact_us');
-            break;
-        }
-      },
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isActive ? Colors.white : Colors.grey[400],
-          fontSize: 16,
         ),
       ),
     );
@@ -196,7 +134,7 @@ class ContactUsScreen extends StatelessWidget {
           isLink
               ? GestureDetector(
                   onTap: () {
-                    // Handle link tap
+                   // Handle link tap
                   },
                   child: Text(
                     content,
