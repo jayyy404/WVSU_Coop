@@ -9,6 +9,7 @@ import 'screens/about_us.dart';
 import 'screens/contact_us.dart';
 import 'screens/stalls.dart';
 import 'homepage.dart';
+import 'screens/order_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/stalls': (context) => const StallsPage(),
         '/about_us': (context) => AboutUsScreen(),
         '/contact_us': (context) => const ContactUsScreen(),
+        '/order_page': (context) => const OrdersPage(),
       },
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -44,7 +46,13 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            return HomePage();
+            final user = snapshot.data!;
+            
+            if (user.email == 'stallowner1@gmail.com') {
+              return const OrdersPage();
+            } else {
+              return HomePage();
+            }
           } else {
             return const LogInPage(isSignUp: false);
           }
