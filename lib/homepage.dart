@@ -64,6 +64,7 @@ class HomePage extends StatelessWidget {
                 _buildNavButton(context, 'Stalls', '/stalls'),
                 _buildNavButton(context, 'About Us', '/about_us'),
                 _buildNavButton(context, 'Contact Us', '/contact_us'),
+                _buildLogoutButton(context),
               ],
             ),
           ],
@@ -138,4 +139,26 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildLogoutButton(BuildContext context) {
+  return TextButton(
+    onPressed: () async {
+      try {
+        await AuthService().signOut();
+        Navigator.pushReplacementNamed(context, '/login');
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Logout failed: $e')),
+        );
+      }
+    },
+    child: const Text(
+      'Logout',
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 16,
+      ),
+    ),
+  );
 }
