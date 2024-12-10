@@ -9,43 +9,6 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<List<DocumentSnapshot>> getOrders() async {
-    try {
-      final QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collectionGroup('orders')
-          .get();
-      print('Orders fetched: ${snapshot.docs.length}'); // Debug print
-
-      // Print the data of each fetched document
-      for (var doc in snapshot.docs) {
-        print('Order ID: ${doc.id}, Data: ${doc.data()}');
-      }
-
-      return snapshot.docs;
-    } catch (e) {
-      print('Error fetching orders: $e');
-      return [];
-    }
-  }
-
-  Future<void> deleteOrder(String orderId, String userId) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('orders')
-          .doc(orderId)
-          .delete();
-      print('Order $orderId deleted successfully');
-    } catch (e) {
-      print('Error deleting order: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +17,45 @@ class _OrdersPageState extends State<OrdersPage> {
         title: const Text('Store Orders'),
         backgroundColor: Colors.teal,
       ),
+      body: ListView.builder(
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final order = orders[index];
+          return Card(
+            margin: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    title: Text('Order #${order['orderId']}'),
+                    subtitle: Text(
+                      '${order['Kiosk']} - Total: ₱${order['totalPrice']}',
+                    ),
+                    onTap: () {
+                      // Show more details or handle order actions
+                      showOrderDetails(context, order['orderId'], order);
+                    },
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          orders.removeAt(index);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
+                      child: const Text('Order Complete'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
       body: FutureBuilder<List<DocumentSnapshot>>(
         future: getOrders(),
         builder: (context, snapshot) {
@@ -124,6 +126,7 @@ class _OrdersPageState extends State<OrdersPage> {
               },
             );
           }
+
         },
       ),
     );
@@ -140,7 +143,7 @@ class _OrdersPageState extends State<OrdersPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('User ID: ${orderData['userId']}'),
+                Text('Kiosk: ${orderData['Kiosk']}'),
                 const SizedBox(height: 8),
                 Text('Total Price: ₱${orderData['totalPrice']}'),
                 const SizedBox(height: 8),

@@ -35,9 +35,46 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.grey[850],
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/coop.jpg'),
+                  radius: 20,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'WVSU Canteen',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                _buildNavButton(context, 'Home', '/home'),
+                _buildNavButton(context, 'Stalls', '/stalls'),
+                _buildNavButton(context, 'About Us', '/about_us'),
+                _buildNavButton(context, 'Contact Us', '/contact_us'),
+                _buildLogoutButton(context),
+              ],
+            ),
+          ],
+        ),
       appBar: CustomAppBar(
         currentPage: 'Home', // Highlights the Home tab
         onNavigate: (route) => _navigateOrLogin(context, route), // Passes navigation logic
+
       ),
       body: Stack(
         children: [
@@ -97,4 +134,26 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildLogoutButton(BuildContext context) {
+  return TextButton(
+    onPressed: () async {
+      try {
+        await AuthService().signOut();
+        Navigator.pushReplacementNamed(context, '/login');
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Logout failed: $e')),
+        );
+      }
+    },
+    child: const Text(
+      'Logout',
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 16,
+      ),
+    ),
+  );
 }
