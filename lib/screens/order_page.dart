@@ -1,56 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _OrdersPageState createState() => _OrdersPageState();
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  final List<Map<String, dynamic>> orders = [
-    {
-      'orderId': '1733394528727',
-      'Kiosk': 'Kiosk 12',
-      'totalPrice': 90.0,
-      'items': [
-        {'name': 'Bubble Tea', 'price': 50.0},
-        {'name': 'Ube Matcha Lemonade', 'price': 40.0},
-      ],
-    },
-    {
-      'orderId': '1733394530543',
-      'Kiosk': 'Kiosk 12',
-      'totalPrice': 100.0,
-      'items': [
-        {'name': 'Puto', 'price': 20.0},
-        {'name': 'Kutsinta', 'price': 30.0},
-        {'name': 'Bubble Tea', 'price': 50.0},
-      ],
-    },
-    {
-      'orderId': '1733394530360',
-      'Kiosk': 'Kiosk 12',
-      'totalPrice': 70.0,
-      'items': [
-        {'name': 'Kutsinta', 'price': 30.0},
-        {'name': 'Ube Matcha Lemonade', 'price': 40.0},
-      ],
-    },
-    {
-      'orderId': '1733394527246',
-      'Kiosk': 'Kiosk 12',
-      'totalPrice': 50.0,
-      'items': [
-        {'name': 'Kutsinta', 'price': 30.0},
-        {'name': 'Puto', 'price': 20.0},
-      ],
-    },
-  ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +56,77 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
             ),
           );
+      body: FutureBuilder<List<DocumentSnapshot>>(
+        future: getOrders(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No orders found.'));
+          } else {
+            final orders = snapshot.data!;
+            final filteredOrders = orders.where((order) {
+              final orderData = order.data() as Map<String, dynamic>;
+              final items = orderData['items'] as List<dynamic>?;
+              if (items == null) {
+                print('No items found in order ID: ${order.id}');
+                return false;
+              }
+              return items.any((item) {
+                final stall = item['stall'];
+                print('Checking item with stall: $stall');
+                return stall == 'Kiosk 12';
+              });
+            }).toList();
+
+            print('Filtered orders count: ${filteredOrders.length}'); // Debug print
+
+            return ListView.builder(
+              itemCount: filteredOrders.length,
+              itemBuilder: (context, index) {
+                final order = filteredOrders[index];
+                final orderId = order.id;
+                final orderData = order.data() as Map<String, dynamic>;
+                final items = orderData['items'] as List<dynamic>?;
+                final userId = order.reference.parent.parent!.id;
+
+                return Card(
+                  margin: const EdgeInsets.all(8.0),
+                  child: ExpansionTile(
+                    title: Text('Order #$orderId'),
+                    subtitle: Text('Total: ₱${orderData['totalPrice']}'),
+                    children: [
+                      ...items != null
+                          ? items.expand<Widget>((item) {
+                              final meals = item['meals'] as List<dynamic>?;
+                              return meals != null
+                                  ? meals.map<Widget>((meal) {
+                                      return ListTile(
+                                        title: Text('${meal['name']}'),
+                                        subtitle: Text('Price: ₱${meal['price']}'),
+                                      );
+                                    }).toList()
+                                  : [const Text('No meals found')];
+                            }).toList()
+                          : [const Text('No items found')],
+                      TextButton(
+                        onPressed: () async {
+                          await deleteOrder(orderId, userId);
+                          setState(() {
+                            filteredOrders.removeAt(index);
+                          });
+                        },
+                        child: const Text('Order Complete'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+
         },
       ),
     );
@@ -119,8 +148,13 @@ class _OrdersPageState extends State<OrdersPage> {
                 Text('Total Price: ₱${orderData['totalPrice']}'),
                 const SizedBox(height: 8),
                 const Text('Items:'),
-                ...orderData['items'].map<Widget>((item) {
-                  return Text('${item['name']} - ₱${item['price']}');
+                ...orderData['items'].expand<Widget>((item) {
+                  final meals = item['meals'] as List<dynamic>?;
+                  return meals != null
+                      ? meals.map<Widget>((meal) {
+                          return Text('${meal['name']} - ₱${meal['price']}');
+                        }).toList()
+                      : [const Text('No meals found')];
                 }).toList(),
               ],
             ),

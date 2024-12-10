@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wvsu_coop/authentication/auth_service.dart';
 import 'package:wvsu_coop/authentication/log_in.dart';
+import 'package:wvsu_coop/screens/custom_app_bar.dart';  
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -34,6 +35,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[850],
@@ -69,9 +71,14 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
+      appBar: CustomAppBar(
+        currentPage: 'Home', // Highlights the Home tab
+        onNavigate: (route) => _navigateOrLogin(context, route), // Passes navigation logic
+
       ),
       body: Stack(
         children: [
+          // Background Image
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -86,6 +93,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+     
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -123,19 +131,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildNavButton(BuildContext context, String label, String route) {
-    return TextButton(
-      onPressed: () => _navigateOrLogin(context, route),
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
       ),
     );
   }
